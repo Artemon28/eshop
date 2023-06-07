@@ -9,7 +9,7 @@ link Task to Status--><g id="link_Task_Status"><path codeLine="27" d="M205.0694,
 entity User {
     username: text
     - -
-    * name: text
+    * title: text
     * surname: text
     * email: string
 }

@@ -1,33 +1,13 @@
 # Demo service
+## Description
+This is a university project in which I and a team of my classmates created the server part of an online store.  
+The main idea is to create a fault-tolerant system that uses event search patterns to store and process information.  
+We used a library created by our teacher, which allowed us to process information even for asynchronous requests using
+Event sourcing patterns.  
+https://github.com/andrsuh/tiny-event-sourcing  
 
-## Launch notes
-* Create template repository with the name `GROUP-ID`-`YOUR-APP-NAME` and select this organization as an account
-* Rename `name`, `description`, `github` to corresponding values in `pom.xml`
-* Rename `postgres-app` to `postgres-YOUR-APP-NAME`, `image` to `ghcr.io/USERNAME/REPOSITORY` in `docker-compose.yml`
-* Configure settings.xml
-  * 
-    * First option: settings in local maven repository (`~/.m2/settings.xml`)
-    * Second option: settings in project root
-  * Settings can be specified using:
-    * mvn -s settings.xml
-    * IDEA: Maven settings -> User settings file
-  * Settings must contain dummy mirror to override default blocking mirror that blocks http
-  ```
-  <mirrors>
-    <mirror>
-      <id>maven-default-http-blocker</id>
-      <mirrorOf>dummy</mirrorOf>
-      <name>Dummy mirror</name>
-      <url>http://0.0.0.0/</url>
-    </mirror>
-  </mirrors>
-  ```
-
-* For local app launch, use **dev** profile. It uses in-memory database
-* For production deploy, run app with no profile
-* Your app docker image will be automatically built and available at `ghcr.io/username/repository` 
-* You can override app version using environment variable `APP_VERSION`, e.g. `APP_VERSION=0.1.0-SNAPSHOT docker compose up -d`
-* To run project on shared instance do `cp docker-compose.override.example.yml docker-compose.override.yml`. It will join the infra network with Logstash, etc
+The correctness was checked on a different number of products and orders that can be received using an external module bombardier.
+https://github.com/andrsuh/bombardier  
 
 ## API
 
@@ -55,10 +35,6 @@
 ### OpenAPI
 * **GET /swagger-ui.html**: Swagger UI
   * Paste bearer token to Authorize window to have access to secured endpoints
-
-## Synchronous calls (through interfaces)
-
-`AuthService.authenticate` -> `UserService.getUser(username)`
 
 ## Authentication
 
@@ -190,48 +166,3 @@ Task::status }o--|| Status
 ```
 
 ![entities](./docs/entities.svg)
-
-## Project structure
-
-### Packages
-
-Any module should be divided into `api` & `impl` base packages 
-to define classes that can be used in other modules.
-
-* users
-  * api
-    * controller
-    * messaging
-    * model
-    * service
-  * impl
-    * entity
-    * repository
-    * service
-* auth
-  * api
-    * controller
-    * service
-    * model
-  * impl
-    * config
-    * service
-* tasks
-  * api
-    * controller
-    * messaging
-    * service
-  * impl
-    * entity
-    * repository
-    * service
-* notifications
-  * api
-    * controller
-    * messaging
-    * model
-    * service
-  * impl
-    * config
-    * entity
-    * repository
